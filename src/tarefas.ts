@@ -5,12 +5,6 @@ const PORT = 3000;
 
 app.use(express.json());
 
-type Tarefa = {
-    id: number,
-    titulo: string,
-    concluida: boolean
-}
-
 let tarefas: Tarefa[] = [
     {id: 1, titulo: "Estudar Express", concluida: false},
     {id: 2, titulo: "Estudar para Prova", concluida: false}
