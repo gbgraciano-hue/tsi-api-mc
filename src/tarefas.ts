@@ -1,70 +1,54 @@
 import express, {Request, Response} from "express";
+import tarefasRoutes from "./routes/tarefas";
+
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 
-let tarefas: Tarefa[] = [
-    {id: 1, titulo: "Estudar Express", concluida: false},
-    {id: 2, titulo: "Estudar para Prova", concluida: false}
-];
+app.use("/tarefas", tarefasRoutes)
 
-app.get("/tarefas", (req: Request, res: Response) =>{
-    res.json(tarefas);
-});
 
-app.get("/tarefas/:id", (req: Request, res: Response) => {
-    const id = Number(req.params.id);
+// app.post("/tarefas", (req: Request, res: Response) => {
+//     const {titulo} = req.body;
 
-    const tarefa = tarefas.find(t => t.id == id);
+//     const novaTarefa: Tarefa = {
+//         id: tarefas.length + 1,
+//         titulo: titulo,
+//         concluida: false
+//     }
 
-    if(!tarefa) {
-        return res.status(404).json({erro: "Tarefa não encontrada"});
-    }
+//     tarefas.push(novaTarefa);
+//     res.status(201).json(novaTarefa);
+// });
 
-    res.json(tarefa);
-});
+// app.put("/tarefas/:id", (req: Request, res: Response) => {
+//     const id = Number(req.params.id);
 
-app.post("/tarefas", (req: Request, res: Response) => {
-    const {titulo} = req.body;
+//     const tarefa = tarefas.find(t => t.id == id);
 
-    const novaTarefa: Tarefa = {
-        id: tarefas.length + 1,
-        titulo: titulo,
-        concluida: false
-    }
+//     if(!tarefa) {
+//         return res.status(404).json({erro : "Tarefa não encontrada"});
+//     }
 
-    tarefas.push(novaTarefa);
-    res.status(201).json(novaTarefa);
-});
+//     const {titulo, concluida} = req.body;
 
-app.put("/tarefas/:id", (req: Request, res: Response) => {
-    const id = Number(req.params.id);
+//     tarefa.titulo = titulo ?? tarefa.titulo,
+//     tarefa.concluida = concluida ?? tarefa.concluida
 
-    const tarefa = tarefas.find(t => t.id == id);
+//     res.json(tarefa);
+// });
 
-    if(!tarefa) {
-        return res.status(404).json({erro : "Tarefa não encontrada"});
-    }
+// app.delete("/tarefas/:id", (req: Request, res: Response) => {
+//     const id = Number(req.params.id);
 
-    const {titulo, concluida} = req.body;
+//     tarefas = tarefas.filter(t => t.id !== id);
 
-    tarefa.titulo = titulo ?? tarefa.titulo,
-    tarefa.concluida = concluida ?? tarefa.concluida
-
-    res.json(tarefa);
-});
-
-app.delete("/tarefas/:id", (req: Request, res: Response) => {
-    const id = Number(req.params.id);
-
-    tarefas = tarefas.filter(t => t.id !== id);
-
-    res.json({
-        mensagem: "Tarefa Removida"
-    });
-});
+//     res.json({
+//         mensagem: "Tarefa Removida"
+//     });
+// });
 
 app.listen(PORT, () => {
     console.log(`Servidor executando em localhost:${PORT}`);
